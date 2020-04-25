@@ -5,7 +5,7 @@ Python script that simulates game of life by John Horton Conway in 1970. The rul
 2. Any dead cell with three live neighbors becomes a live cell.
 3. All other live cells die in the next generation. Similarly, all other dead cells stay dead.
 
-Uses matplotlib to display the simulation in animation.
+Uses matplotlib to visualize the simulation.
 
 ![gof_random5.gif](demo/gof_random5.gif)
 
