@@ -7,6 +7,8 @@ Python script that simulates game of life by John Horton Conway in 1970. The rul
 
 Uses matplotlib to display the simulation in animation.
 
+![gof_random5.gif](demo/gof_random5.gif)
+
 # How to Run
 Simply execute the script 'py main.py'
 

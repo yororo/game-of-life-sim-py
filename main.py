@@ -6,30 +6,38 @@ import matplotlib.animation as animation
 from copy import deepcopy
 
 # Setting: set to true if you want to save the animation locally
-saveFile = False
+saveFile = True
 # Setting: file name of the saved animation if saveFile is True
 fileName = 'gof.gif'
 # Setting: speed of animation in ms
 animationSpeed = 10
+# Setting: number of frames (how long) for animation
+animationFrames = 80
 # Setting: random generated size of board (lenght and height) with specified min max range
 boardSize = random.randint(50, 300)
-# Setting: ratio of dead vs. alive in percentage respectively
+# Setting: ratio of dead vs. alive respectively in percentage
 deadAliveChances = [95, 5]
 
 
 def main():
     """Entry point of script"""
+
     showAnimation(generateBoard())
-    #showAnimation(generateBoardTest(150, 'beacon'))
+    #showAnimation(generateBoardTest(100, 'acorn'))
 
 
 def generateBoard():
     """Returns a random genereated board to represent the starting state"""
+
     return [random.choices([0,1], deadAliveChances, k=boardSize) for _ in range(boardSize)]
 
 
 def generateBoardTest(size, pattern):
-    """Returns an initialized board for testing purposes. Size of board and pattern can be specified."""
+    """Returns an initialized board for testing purposes. Size of board and pattern can be specified.
+    
+    Patterns supported: glider, acorn, blinker, and beacon
+    """
+
     size = 20 if size < 10 else size
     board = [[0 for col in range(size)] for row in range(size)]
 
@@ -69,6 +77,7 @@ def generateBoardTest(size, pattern):
 
 def getNextGeneration(board):
     """Returns the next state of the board by applying the rules"""
+
     newBoard = deepcopy(board)
 
     for indexRow in range(len(board)):
@@ -80,6 +89,7 @@ def getNextGeneration(board):
 
 def printGenerationsToConsole(board):
     """Prints the board in console for debugging/testing purposes"""
+
     print('== PRINTING GENERATIONS: ')
     numOfGenerations = 2
     generations = []
@@ -100,6 +110,7 @@ def printGenerationsToConsole(board):
 
 def update(frameNum, img, board, N):
     """Function to be called by matplotlib.animation to create the succeeding frames"""
+
     newBoard = getNextGeneration(board)
     img.set_data(newBoard)
     board[:] = newBoard[:]
@@ -108,12 +119,13 @@ def update(frameNum, img, board, N):
 
 def showAnimation(startingBoard):
     """Shows the animation using matplotlib by using startingBoard as the first frame and calls update for succeeding frames"""
+
     fig, ax = plt.subplots()
     ani = animation.FuncAnimation(
                         fig,
                         update, 
                         fargs = (ax.imshow(startingBoard, interpolation='nearest'), startingBoard, len(startingBoard), ), 
-                        frames = 40, 
+                        frames = animationFrames, 
                         interval = animationSpeed, 
                         save_count = 10) 
 
@@ -125,6 +137,7 @@ def showAnimation(startingBoard):
 
 def getNewState(indexRow, indexCol, board):
     """Returns the new state (dead or alive) of a cell in the board"""
+
     aliveNeighbors = 0
     boardSize = len(board) - 1
 
